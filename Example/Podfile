@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Downloader_Example' do
+  pod 'Downloader', :path => '../'
+
+  target 'Downloader_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
