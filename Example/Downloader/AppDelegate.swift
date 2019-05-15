@@ -6,16 +6,21 @@
 //  Copyright (c) 2019 Majid Jabrayilov. All rights reserved.
 //
 
-import UIKit
+import Downloader
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let factory = RootFactory(session: .shared, decoder: .init())
+        UIView.appearance().tintColor = .red
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = FlowController(factory: factory)
+        window?.makeKeyAndVisible()
+        
         return true
     }
 
