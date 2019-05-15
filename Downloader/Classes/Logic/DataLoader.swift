@@ -9,7 +9,7 @@ import Foundation
 
 public class DataLoader {
     private var cancellationTokens: [CancellationToken] = []
-    private var operations: [URL: Operation] = [:]
+    private var ongoing: [URL: Operation] = [:]
     private let safeQueue = DispatchQueue(label: "DataLoader.RaceCondition.Queue")
     private let queue: OperationQueue
     private let cache: LRUCache<URL, Data>
@@ -36,7 +36,7 @@ public class DataLoader {
             safeQueue.sync {
                 cancellationTokens.append(token)
 
-                guard cancellationTokens.filter ({ $0.url == url }).count == 1 else {
+                guard ongoing[url] == nil else {
                     return
                 }
 
@@ -45,7 +45,7 @@ public class DataLoader {
                     self?.handle(result, for: url)
                 }
 
-                operations[url] = operation
+                ongoing[url] = operation
                 queue.addOperation(operation)
             }
 
@@ -57,7 +57,7 @@ public class DataLoader {
         safeQueue.sync {
             cancellationTokens.removeAll { $0 == token }
             if cancellationTokens.filter({ $0.url == token.url }).count == 0 {
-                let operation = operations.removeValue(forKey: token.url)
+                let operation = ongoing.removeValue(forKey: token.url)
                 operation?.cancel()
             }
         }
@@ -76,7 +76,7 @@ public class DataLoader {
             }
 
             cancellationTokens.removeAll { $0.url == url }
-            operations.removeValue(forKey: url)
+            ongoing.removeValue(forKey: url)
         }
     }
 }
