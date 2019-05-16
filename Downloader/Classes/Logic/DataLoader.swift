@@ -31,9 +31,7 @@ public class DataLoader {
     @discardableResult
     public func fetch(_ url: URL, handler: @escaping Handler<Data>) -> CancellationToken? {
         if let data = cache.get(url) {
-            safeQueue.async {
-                handler(.success(data))
-            }
+            handler(.success(data))
             return nil
         } else {
             let token = CancellationToken(url: url, handler: handler, loader: self)
