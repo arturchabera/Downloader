@@ -31,10 +31,13 @@ extension RootFactory: DependencyFactory {
     }
 
     func makeDataLoader() -> DataLoader {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 5
+
         return DataLoader(
             session: session,
             cache: LRUCache<URL, Data>(10),
-            queue: .init()
+            queue: queue
         )
     }
 }

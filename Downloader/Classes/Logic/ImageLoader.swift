@@ -13,7 +13,7 @@ public class ImageLoader {
     private let loader: DataLoader
     
     private init() {
-        self.loader = DataLoader(session: .shared, cache: .init(10), queue: .init())
+        loader = DataLoader(config: .standard)
     }
 
     @discardableResult

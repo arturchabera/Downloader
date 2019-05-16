@@ -15,9 +15,14 @@ public class DataLoader {
     private let cache: LRUCache<URL, Data>
     private let session: URLSession
 
+    public init(config: Configuration = .standard) {
+        cache = .init(config.cacheSize)
+        session = .shared
+        queue = .init()
+        queue.maxConcurrentOperationCount = config.maxConcurrentOperationCount
+    }
+
     public init(session: URLSession, cache: LRUCache<URL, Data>, queue: OperationQueue) {
-        queue.maxConcurrentOperationCount = 10
-        
         self.session = session
         self.cache = cache
         self.queue = queue
@@ -78,6 +83,20 @@ public class DataLoader {
             cancellationTokens.removeAll { $0.url == url }
             ongoing.removeValue(forKey: url)
         }
+    }
+}
+
+extension DataLoader {
+    public struct Configuration {
+        let cacheSize: Int
+        let maxConcurrentOperationCount: Int
+
+        public init(cacheSize: Int, maxConcurrentOperationCount: Int) {
+            self.maxConcurrentOperationCount = maxConcurrentOperationCount
+            self.cacheSize = cacheSize
+        }
+
+        public static let standard = Configuration(cacheSize: 10, maxConcurrentOperationCount: 10)
     }
 }
 
