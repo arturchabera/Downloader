@@ -12,8 +12,8 @@ public class ImageLoader {
 
     private let loader: DataLoader
     
-    private init() {
-        loader = DataLoader(config: .standard)
+    public init(loader: DataLoader = DataLoader(config: .standard)) {
+        self.loader = loader
     }
 
     @discardableResult
