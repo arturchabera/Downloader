@@ -18,14 +18,14 @@ public class LRUCache<Key: Hashable, Value> {
     }
 
     public func get(_ key: Key) -> Value? {
-        guard let val = cache[key] else {
+        guard let value = cache[key] else {
             return nil
         }
 
         remove(key)
-        insert(key, value: val)
+        insert(key, value: value)
 
-        return val
+        return value
     }
 
     public func set(_ key: Key, value: Value) {
