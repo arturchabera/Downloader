@@ -61,7 +61,7 @@ public class DataLoader {
     func cancel(_ token: CancellationToken) {
         safeQueue.sync {
             cancellationTokens.removeAll { $0 == token }
-            if cancellationTokens.filter({ $0.url == token.url }).count == 0 {
+            if cancellationTokens.filter({ $0.url == token.url }).isEmpty {
                 let operation = ongoing.removeValue(forKey: token.url)
                 operation?.cancel()
             }
@@ -96,7 +96,7 @@ extension DataLoader {
             self.cacheSize = cacheSize
         }
 
-        public static let standard = Configuration(cacheSize: 10, maxConcurrentOperationCount: 10)
+        public static let standard = Configuration(cacheSize: 15, maxConcurrentOperationCount: 10)
     }
 }
 
