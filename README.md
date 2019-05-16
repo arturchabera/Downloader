@@ -1,7 +1,7 @@
 # Downloader
 
 ![iPhone](https://github.com/mecid/Downloader/blob/master/iPhone.jpg?raw=true)
-![iPad](https://github.com/mecid/Downloader/blob/master/iPad.jpg?raw=true)
+![iPad](https://github.com/mecid/Downloader/blob/master/iPad.png?raw=true)
 
 ## Example
 
